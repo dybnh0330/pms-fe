@@ -1,0 +1,43 @@
+<div align="start">
+  <h2 mat-dialog-title class="text-uppercase">Chỉ định y lệnh xét nghiệm</h2>
+</div>
+<div mat-dialog-content class="container">
+  <form #addForm="ngForm"
+        name="receviePatient">
+    <div>
+      <label class="form-label">
+        Các y lệnh đã thực hiện trong quá trình khám bệnh
+      </label>
+      <ng-select
+        name="medicalOrder"
+        bindLabel="name"
+        bindValue="id"
+        [items]="medicalOrders"
+        id="medicalOrder"
+        [multiple]="true"
+        [(ngModel)]="data.orderMedicalOrder.medicalOrderIds"
+        placeholder="Lựa chọn y lệnh đã thực hiện"
+        #medicalOrder="ngModel"
+        required
+      >
+      </ng-select>
+      <div
+        *ngIf="medicalOrder.invalid
+          && (medicalOrder.dirty || medicalOrder.touched) && medicalOrder.errors?.['required']"
+        class="text-danger text-xs">
+        Y lệnh chưa được lựa chọn
+      </div>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions align="end">
+  <button class="btn btn-secondary btn-sm m-2"
+          (click)="close()"><span>Huỷ</span></button>
+  <button
+    [disabled]="!addForm.valid"
+    type="submit"
+    [mat-dialog-close]="data.orderMedicalOrder"
+    class="btn btn-primary btn-sm">
+    <span>Lưu</span>
+  </button>
+</div>

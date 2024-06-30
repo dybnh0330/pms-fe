@@ -1,0 +1,114 @@
+<h3 class="mt-4 text-uppercase">Danh sách thông tin khoa bệnh</h3>
+<div class="mt-3">
+
+  <form
+    (submit)="search()"
+  >
+    <div class="row justify-content-end">
+      <div class="col-10">
+        <input
+          class="form-control"
+          type="search"
+          placeholder="Nhập thông tin"
+          [(ngModel)]="searchVo.searchText"
+          id="searchText"
+          name="searchText"
+        >
+      </div>
+      <div class="col-2">
+        <button
+          class="btn btn-light"
+          type="submit">
+          <i class='bx bx-search'></i>Tìm kiếm
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <div class="row mt-3"
+       *ngIf="isAuthor()"
+  >
+    <div class="col-2">
+      <button class="btn btn-outline-success btn-md"
+              type="submit"
+              (click)="showCreate()">
+        <i class='bx bx-plus'></i>
+        <span>Thêm</span>
+      </button>
+    </div>
+
+  </div>
+
+  <div class="table-responsive">
+    <table
+      sorter
+      (sortChange)="onSortChange($event)"
+      class="table table-hover mt-4">
+      <thead>
+      <tr class="text-secondary text-start text-uppercase">
+        <th scope="col">#</th>
+        <th sortHeader ref="name" scope="col">Khoa bệnh</th>
+        <th sortHeader ref="description" scope="col" style="width: 800px">Thông tin mô tả</th>
+        <th
+          scope="col"
+          *ngIf="isAuthor()"
+        >
+          Hành động
+        </th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="text-dark text-start" *ngFor="let item of departments; let id = index">
+        <td>{{id + 1 + itemsPerPage * (page - 1)}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.description}}</td>
+        <td
+          *ngIf="isAuthor()"
+        >
+          <button
+            (click)="showUpdate(item.id)"
+            class="btn btn-outline-primary btn-sm me-1">
+            <span>Sửa</span>
+          </button>
+          <button
+            (click)="showDelete(item)"
+            class="btn btn-outline-danger btn-sm">
+            <span>Xoá</span>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="row justify-content-around">
+    <div class="col-3" *ngIf="totalElements > 0">
+      Hiển thị từ {{ 1 + itemsPerPage * (page - 1) }} -
+      {{ math.min(totalElements, itemsPerPage * page) }} /
+      {{ totalElements }} phần tử
+    </div>
+    <div class="col-3">
+      <pagination
+        (onPageChange)="onPageChange($event)"
+        [page]="page"
+        [totalItems]="totalElements"
+        [itemsPerPage]="itemsPerPage"
+      ></pagination>
+    </div>
+    <div class="col-3">
+      <span style="font-size: 14px; line-height: 16px">
+        Số lượng hiển thị/Trang: </span>&nbsp;
+      <div class="d-inline-block">
+        <select
+          style="font-size: 14px; line-height: 16px"
+          class="form-select"
+          aria-label="Số phần tử/Trang"
+          [ngModel]="itemsPerPage"
+          (ngModelChange)="onItemPerPageChange($event)">
+          <option *ngFor="let item of lsItemsPerPage" [value]="item">
+            {{ item }}
+          </option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>

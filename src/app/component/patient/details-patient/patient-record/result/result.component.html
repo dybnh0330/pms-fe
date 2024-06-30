@@ -1,0 +1,53 @@
+<h1 mat-dialog-title align="center" class="text-uppercase">
+  Kết quả xét nghiệm bệnh nhân
+</h1>
+<div mat-dialog-content>
+
+  <div align="start" class="mb-2">
+    <button
+      (click)="showCreate()"
+      class="btn btn-outline-primary btn-sm me-1">
+      <span>Tải lên</span>
+    </button>
+  </div>
+
+  <table class="table table-hover">
+    <thead>
+    <tr class="text-secondary text-start text-uppercase">
+      <th scope="col">STT</th>
+      <th style="width: 300px">Tên file</th>
+      <th scope="col">Thời gian tạo </th>
+      <th scope="col">Người tải</th>
+      <th scope="col">Hành động</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="text-dark text-start" *ngFor="let item of files; let id = index">
+      <td>{{id + 1}}</td>
+      <td>{{item.fileName}}</td>
+      <td>{{item.createTime | date: "dd/MM/yyyy HH:mm:ss"}}</td>
+      <td>{{item.createBy}}</td>
+      <td>
+        <button
+          (click)="viewResult(item)"
+          class="btn btn-outline-info btn-sm me-1">
+          <span>Xem trước</span>
+        </button>
+        <button
+          (click)="downloadResult(item.fileName)"
+          class="btn btn-outline-success btn-sm me-1">
+          <span>Tải xuống</span>
+        </button>
+        <button
+          (click)="showDelete(item)"
+          class="btn btn-outline-danger btn-sm me-1">
+          <span>Xoá</span>
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div mat-dialog-actions align="end">
+  <button class="btn btn-secondary btn-sm m-2" (click)="close()"><span>Đóng</span></button>
+</div>

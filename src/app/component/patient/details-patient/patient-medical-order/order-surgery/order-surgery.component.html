@@ -1,0 +1,47 @@
+<div class="ms-2">
+  <div class="mt-3" *ngIf="isAuthor(roleAccepted)">
+    <button
+      (click)="showCreate()"
+      class="btn btn-outline-success btn-sm">
+      <span><i class="bx bx-plus"></i>Thêm mới</span>
+    </button>
+  </div>
+  <div class="mt-3" mat-dialog-content>
+    <div align="center" *ngIf="orderSurgeries.length === 0">
+      <h3 class="text-danger">Không có y lệnh phẫu thuật/thủ thuật</h3>
+    </div>
+    <div  *ngIf="orderSurgeries.length > 0" class="table table responsive">
+      <table
+        class="table table hover">
+        <thead>
+        <tr class="text-secondary text-start text-uppercase">
+          <th scope="col">#</th>
+          <th scope="col">Ngày tạo</th>
+          <th scope="col">Tên thủ thuật/phẫu thuật</th>
+          <th scope="col">Ghi chú</th>
+          <th scope="col" *ngIf="isAuthor(roleAccepted)">Hành động</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr
+          class="text-dark text-start"
+          *ngFor="let item of orderSurgeries; let i = index"
+        >
+          <td>{{i + 1}}</td>
+          <td>{{item.createTime | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+          <td>{{item.orderName}}</td>
+          <td>{{item.note}}</td>
+          <td *ngIf="isAuthor(roleAccepted)">
+            <button
+              (click)="showCancel(item)"
+              class="btn btn-outline-danger btn-sm">
+              <span>Huỷ</span>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+

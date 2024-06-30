@@ -1,0 +1,35 @@
+<div class="col-2" *ngIf="isAuthor(roleAccepted)">
+  <button class="btn btn-outline-primary btn-md"
+          type="submit"
+          (click)="showUpdate()">
+    <i class='bx bx-edit-alt'></i>
+    <span>Cập nhật</span>
+  </button>
+</div>
+<div class="table-responsive">
+  <table
+    sorter
+
+    class="table table-hover mt-4">
+    <thead>
+    <tr class="text-secondary text-start text-uppercase">
+      <th scope="col">#</th>
+      <th sortHeader ref="name" scope="col">Tên nhân viên</th>
+      <th sortHeader ref="department" scope="col">Khoa bệnh</th>
+      <th sortHeader ref="specialize" scope="col">Chuyên môn</th>
+      <th sortHeader ref="phoneNumber" scope="col">Số điện thoại</th>
+      <th sortHeader ref="address" scope="col">Địa chỉ</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="text-dark text-start" *ngFor="let item of staffRooms; let id = index">
+      <td>{{id + 1}}</td>
+      <td>{{item.name}}</td>
+      <td>{{item.departmentName}}</td>
+      <td>{{item.specialize}}</td>
+      <td>{{item.phoneNumber}}</td>
+      <td>{{item.address}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

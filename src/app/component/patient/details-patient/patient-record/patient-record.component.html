@@ -1,0 +1,44 @@
+<h1 mat-dialog-title class="text-uppercase">
+  Thông tin bệnh án bệnh nhân {{data.patientName}}
+</h1>
+<div mat-dialog-content>
+
+  <div align="start" class="mb-2">
+    <button
+      (click)="showResult(data.recordId)"
+      class="btn btn-outline-warning btn-sm me-1">
+      <span>Kết quả xét nghiệm</span>
+    </button>
+  </div>
+
+  <table class="table table-hover">
+    <thead>
+    <tr class="text-secondary text-start text-uppercase">
+      <th scope="col">Tên bệnh nhân</th>
+      <th scope="col">Lý do nhập viện</th>
+      <th scope="col">Tiền sử bệnh</th>
+      <th scope="col">Chẩn đoán bệnh</th>
+      <th scope="col">Hành động</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="text-dark text-start">
+      <td>{{data.patientName}}</td>
+      <td>{{data.reason}}</td>
+      <td>{{data.medicalHistory}}</td>
+      <td>{{data.diagnostic}}</td>
+      <td>
+        <button
+          (click)="showUpdate(data)"
+          class="btn btn-outline-primary btn-sm me-1">
+          <span>Cập nhật</span>
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <app-patient-record-details [patientId]="patientId"></app-patient-record-details>
+</div>
+<div mat-dialog-actions align="end">
+  <button class="btn btn-secondary btn-sm m-2" (click)="close()"><span>Đóng</span></button>
+</div>

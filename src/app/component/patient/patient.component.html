@@ -1,0 +1,167 @@
+<h3 class="mt-4 text-uppercase">Danh sách thông tin bệnh nhân</h3>
+<div class="mt-3">
+  <form (submit)="search()">
+    <div class="row justify-content-end">
+      <div class="col-10">
+        <input
+          class="form-control"
+          type="search"
+          [(ngModel)]="searchVo.searchText"
+          name="searchText"
+          placeholder="Nhập thông tin">
+      </div>
+      <div class="col-2">
+        <button
+          class="btn btn-light"
+          type="submit">
+          <i class='bx bx-search'></i>Tìm kiếm
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <div class="col-2 mt-3" *ngIf="isAuthor(roleAdmin)">
+    <ng-select
+      id="selectDepartment"
+      placeholder="Lọc theo khoa bệnh"
+      [items]="departments"
+      [(ngModel)]="departmentId"
+      [clearable]="false"
+      bindValue="id"
+      bindLabel="name"
+      (ngModelChange)="onDepartmentChange($event)"
+    >
+    </ng-select>
+  </div>
+
+  <div class="mt-3" *ngIf="patientsAdmission.length > 0">
+    <h4>Bệnh nhân nhập khoa</h4>
+    <div class="table-responsive">
+      <table
+        class="table table-hover">
+        <thead>
+        <tr class="text-secondary text-start text-uppercase">
+          <th scope="col">#</th>
+          <th scope="col">Mã bệnh nhân</th>
+          <th scope="col">Tên bệnh nhân</th>
+          <th scope="col">Giới tính</th>
+          <th scope="col">Năm sinh</th>
+          <th scope="col">Khoa bệnh</th>
+          <th scope="col">Thời gian vào viện</th>
+          <th scope="col" *ngIf="isAuthor(roleSpecialist)">Hành động</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="text-dark text-start"
+            *ngFor="let item of patientsAdmission; let id = index">
+          <td>{{id + 1}}</td>
+          <td>{{item.patientCode}}</td>
+          <td>{{item.patientName}}</td>
+          <td>{{item.gender === 0 ? "Nam" : "Nữ"}}</td>
+          <td>{{item.dob | date: 'dd/MM/yyyy'}}</td>
+          <td>{{item.departmentName}}</td>
+          <td>{{item.createTime | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+          <td *ngIf="isAuthor(roleSpecialist)">
+            <button
+              (click)="showAssign(item.id)"
+              class="btn btn-outline-success btn-sm">
+              <span>Chỉ định nhập khoa</span>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div *ngIf="patients.length > 0">
+    <div class="mt-3">
+      <h4>Bệnh nhân đang điều trị</h4>
+      <div class="table-responsive">
+        <table
+          sorter
+          class="table table-hover">
+          <thead>
+          <tr class="text-secondary text-start text-uppercase">
+            <th scope="col">#</th>
+            <th sortHeader ref="name" scope="col">Tên bệnh nhân</th>
+            <th sortHeader ref="gender" scope="col">Giới tính</th>
+            <th sortHeader ref="yearOfBirth" scope="col">Năm sinh</th>
+            <th sortHeader ref="department" scope="col">Khoa bệnh</th>
+            <th sortHeader ref="patientRoom" scope="col">Buồng bệnh</th>
+            <th sortHeader ref="patientBed" scope="col">Giường bệnh</th>
+            <th sortHeader ref="medicalStaff" scope="col">Bác sĩ điều trị</th>
+            <th
+              *ngIf="isAuthor(roleAccepted)"
+              scope="col">Hành động
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="text-dark text-start" *ngFor="let item of patients; let id = index">
+            <td>{{id + 1 + itemsPerPage * (page - 1)}}</td>
+            <td>{{item.patientName}}</td>
+            <td>{{item.gender === 0 ? "Nam" : "Nữ"}}</td>
+            <td>{{item.dob | date: 'dd/MM/yyyy'}}</td>
+            <td>{{item.departmentName}}</td>
+            <td>{{item.roomNumber}}</td>
+            <td>{{item.bedNumber}}</td>
+            <td>{{item.medicalStaffName}}</td>
+            <td
+              *ngIf="isAuthor(roleAccepted)"
+            >
+              <button
+                (click)="showDetails(item.id)"
+                class="btn btn-outline-info btn-sm me-1">
+                <span>Chi tiết</span>
+              </button>
+              <button
+                *ngIf="isAuthor(roleNurseAndSpecialist)"
+                (click)="showUpdate(item.id)"
+                class="btn btn-outline-primary btn-sm me-1">
+                <span>Cập nhật</span>
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="row justify-content-around">
+      <div class="col-3" *ngIf="totalElements > 0">
+        Hiển thị từ {{ 1 + itemsPerPage * (page - 1) }} -
+        {{ math.min(totalElements, itemsPerPage * page) }} /
+        {{ totalElements }} phần tử
+      </div>
+      <div class="col-3">
+        <pagination
+          (onPageChange)="onPageChange($event)"
+          [page]="page"
+          [totalItems]="totalElements"
+          [itemsPerPage]="itemsPerPage"
+        ></pagination>
+      </div>
+      <div class="col-3">
+      <span style="font-size: 14px; line-height: 16px">
+        Số lượng hiển thị/Trang: </span>&nbsp;
+        <div class="d-inline-block">
+          <select
+            style="font-size: 14px; line-height: 16px"
+            class="form-select"
+            aria-label="Số phần tử/Trang"
+            [ngModel]="itemsPerPage"
+            (ngModelChange)="onItemPerPageChange($event)">
+            <option *ngFor="let item of lsItemsPerPage" [value]="item">
+              {{ item }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div align="center" *ngIf="patientsAdmission.length === 0 && patients.length === 0">
+    <h4 class="text-danger">Không có bệnh nhân</h4>
+  </div>
+</div>

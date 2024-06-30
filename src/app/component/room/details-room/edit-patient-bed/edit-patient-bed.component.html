@@ -1,0 +1,64 @@
+<h1 mat-dialog-title class="text-uppercase">
+  {{data.isCreate ? "Thêm mới" : "Cập nhật" }} thông tin giường bệnh
+</h1>
+<div mat-dialog-content class="mt-2">
+  <form #addForm="ngForm"
+        class="row justify-content-md-center">
+    <div *ngIf="!data.isCreate">
+      <label for="code" class="form-label">
+        Mã giường bệnh
+      </label>
+      <div class="mb-3">
+        <input [(ngModel)]="data.patientBed.bedCode"
+               type="text"
+               class="form-control"
+               id="code"
+               name="bedCode"
+               readonly
+               #name="ngModel"
+        />
+      </div>
+    </div>
+    <label for="name" class="form-label">
+      Tên giường bệnh<span class="text-danger">*</span>
+    </label>
+    <div class="mb-3">
+      <input
+        [(ngModel)]="data.patientBed.bedNumber"
+        type="text"
+        class="form-control"
+        id="name"
+        name="bedNumber"
+        placeholder="Nhập tên gường bệnh"
+        required
+        #name="ngModel"
+      />
+      <div
+        *ngIf="name.invalid
+        && (name.dirty || name.touched)
+        && name.errors?.['required']"
+        class="text-danger">
+        Tên giường bệnh không được để trống
+      </div>
+    </div>
+
+    <div *ngIf="!data.isCreate">
+      <mat-slide-toggle
+        name="status"
+        [(ngModel)]="data.patientBed.status"
+        (change)="checked=$event">
+        <span class="fs-6">Trạng thái</span>
+      </mat-slide-toggle>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions align="end">
+  <button class="btn btn-secondary btn-sm m-2" (click)="close()"><span>Huỷ</span></button>
+  <button
+    [disabled]="!addForm.valid"
+    type="submit"
+    class="btn btn-primary btn-sm"
+    [mat-dialog-close]="data.patientBed">
+    <span>Lưu</span>
+  </button>
+</div>

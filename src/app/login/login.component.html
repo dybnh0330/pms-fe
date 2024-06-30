@@ -1,0 +1,51 @@
+<div fxLayout="row" fxLayoutAlign="center center" style="margin-top: 150px;">
+  <mat-card fxFlex="40" fxLayout="column">
+    <mat-toolbar color="primary">
+      <span>Hệ thống quản lý bệnh nhân nội trú - PMS</span>
+    </mat-toolbar>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" fxLayout="column" class="px-3 py-3">
+      <div>
+      </div>
+      <label for="username">Tài khoản<span class="text-danger">*</span></label>
+      <mat-form-field class="mb-2">
+        <input
+          required
+          id="username"
+          name="username"
+          formControlName="username"
+          placeholder="Tên tài khoản"
+          matInput>
+        <mat-error class="mb-1" *ngIf="loginForm.get('username')?.invalid
+        && (loginForm.get('username')?.dirty
+        || loginForm.get('username')?.touched)
+        && loginForm.get('username')?.errors?.required">
+          Tài khoản không được để trống
+        </mat-error>
+      </mat-form-field>
+
+      <label for="password">Mật khẩu<span class="text-danger">*</span></label>
+      <mat-form-field class="mb-2">
+        <input
+          matInput
+          id="password"
+          name="password"
+          placeholder="Mật khẩu"
+          formControlName="password"
+          type="password"
+          required>
+        <mat-error class="mb-1" *ngIf="loginForm.get('password')?.invalid
+        && (loginForm.get('password')?.dirty
+        || loginForm.get('password')?.touched)
+        && loginForm.get('password')?.errors?.required">
+          Mật khẩu không được để trống
+        </mat-error>
+      </mat-form-field>
+      <button
+        mat-raised-button
+        [disabled]="!loginForm.valid"
+        color="primary">
+        <span>Đăng nhập</span>
+      </button>
+    </form>
+  </mat-card>
+</div>

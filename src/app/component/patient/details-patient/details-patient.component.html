@@ -1,0 +1,11 @@
+<mat-tab-group>
+  <mat-tab label="Thông tin bệnh nhân">
+    <app-patient-info [data]="data.patient"></app-patient-info>
+  </mat-tab>
+  <mat-tab label="Thông tin bệnh án" *ngIf="isAuthor(roleAccepted)">
+    <app-patient-record [patientId]="data.patient.id"></app-patient-record>
+  </mat-tab>
+  <mat-tab label="Thông tin y lệnh" *ngIf="isAuthor(roleAccepted)">
+    <app-patient-medical-order [patientId]="data.patient.id"></app-patient-medical-order>
+  </mat-tab>
+</mat-tab-group>

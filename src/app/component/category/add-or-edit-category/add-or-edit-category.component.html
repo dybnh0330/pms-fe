@@ -1,0 +1,86 @@
+<h1 mat-dialog-title class="text-uppercase">
+  {{data.isCreate ? "Thêm mới" : "Cập nhật" }} danh mục
+</h1>
+<div mat-dialog-content class="mt-2">
+  <form #addForm="ngForm"
+        class="row justify-content-md-center">
+    <label for="name" class="form-label">
+      Tên danh mục<span class="text-danger">*</span>
+    </label>
+    <div class="mb-3">
+      <input [(ngModel)]="data.category.name"
+             type="text"
+             class="form-control"
+             id="name"
+             name="name"
+             placeholder="Nhập tên danh mục"
+             required
+             #name="ngModel"
+      />
+      <div
+        *ngIf="name.invalid && (name.dirty || name.touched) && name.errors?.['required']"
+        class="text-danger">
+        Tên danh mục không được để trống
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="description">
+        Thông tin mô tả<span class="text-danger">*</span>
+      </label>
+      <textarea
+        class="form-control"
+        [(ngModel)]="data.category.description"
+        name="description"
+        placeholder="Thông tin mô tả danh mục"
+        required
+        id="description"
+        #description="ngModel"
+        rows="5"></textarea>
+
+      <div
+        *ngIf="description.invalid
+        && (description.dirty || description.touched)
+        && description.errors?.['required']"
+        class="text-danger">
+        Thông tin mô tả không được để trống
+      </div>
+    </div>
+
+    <div class="mb-3" *ngIf="!data.isCategoryType">
+      <label class="form-label" for="parentCategory">
+        Loại danh mục<span class="text-danger">*</span>
+      </label>
+      <ng-select
+        [(ngModel)]="data.category.parentId"
+        id="parentCategory"
+        name="parentId"
+        #parent="ngModel"
+        placeholder="Lựa chọn loại danh mục"
+        required>
+        <ng-option *ngFor="let item of categoryTypes" [value]="item.id">
+          {{ item.name }}
+        </ng-option>
+      </ng-select>
+      <div
+        *ngIf="parent.invalid && (parent.dirty || parent.touched)
+        && parent.errors?.['required']"
+        class="text-danger text-xs">
+        Loại danh mục chưa được lựa chọn
+      </div>
+    </div>
+
+  </form>
+</div>
+<div mat-dialog-actions align="end">
+  <button class="btn btn-secondary btn-sm m-2" (click)="close()"><span>Huỷ</span></button>
+  <button
+    [disabled]="!addForm.valid"
+    type="submit"
+    class="btn btn-primary btn-sm"
+    [mat-dialog-close]="data.category">
+    <span>Lưu</span>
+  </button>
+</div>
+
+<!--(click)="showValue(addForm)"-->

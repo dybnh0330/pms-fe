@@ -1,0 +1,43 @@
+
+<h5 class="mt-2">Chi tiết bệnh án</h5>
+<button
+  (click)="showCreate()"
+  class="btn btn-outline-success btn-sm mt-1">
+  <span>Thêm chi tiết</span>
+</button>
+<table class="table table-hover mt-1">
+  <thead>
+  <tr class="text-secondary text-start text-uppercase">
+    <th scope="col">#</th>
+    <th scope="col">Ngày tạo</th>
+    <th scope="col">Người tạo</th>
+    <th scope="col" style="width: 600px;">Thông tin mô tả</th>
+    <th scope="col">Hành động</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr class="text-dark text-start" *ngFor="let detail of patientRecordDetails; let i = index">
+    <td>{{i+1}}</td>
+    <td>{{detail.createTime | date: 'dd/MM/yyyy HH:mm:ss'}}</td>
+    <td>{{detail.createBy}}</td>
+    <td>{{detail.description}}</td>
+    <td>
+      <button
+        (click)="showUpdate(detail.id)"
+        class="btn btn-outline-primary btn-sm ms-1">
+        <span>Sửa</span>
+      </button>
+      <button
+        (click)="showDelete(detail)"
+        class="btn btn-outline-danger btn-sm ms-1">
+        <span>Xoá</span>
+      </button>
+<!--      <button-->
+<!--        (click)="showResult(1)"-->
+<!--        class="btn btn-outline-warning btn-sm ms-1 mt-1">-->
+<!--        <span>Kết quả</span>-->
+<!--      </button>-->
+    </td>
+  </tr>
+  </tbody>
+</table>

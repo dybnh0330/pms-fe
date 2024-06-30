@@ -1,0 +1,96 @@
+<h1 mat-dialog-title class="text-uppercase">
+  {{data.isCreate ? "Thêm mới" : "Cập nhật" }} y lệnh thuốc điều trị
+</h1>
+<div mat-dialog-content class="mt-2">
+  <form #addForm="ngForm"
+        name="addOrderDrug"
+  >
+    <div class="row mt-1" *ngFor="let object of dataArray; let i = index">
+      <div class="col-3">
+        <ng-select
+          [(ngModel)]="object.categoryId"
+          id="dugName"
+          name="categoryId{{i}}"
+          placeholder="Chọn thuốc điều trị"
+          required
+          #name="ngModel"
+        >
+          <ng-option *ngFor="let item of drugs; let i = index" [value]="item.id">
+            {{item.name}}
+          </ng-option>
+        </ng-select>
+        <div
+          *ngIf="name.invalid && (name.dirty || name.touched) && name.errors?.['required']"
+          class="text-danger text-xs">
+          Thuốc điều trị chưa được lựa chọn
+        </div>
+      </div>
+      <div class="col-2">
+        <input
+          [(ngModel)]="object.quantity"
+          type="number"
+          class="form-control"
+          id="quantity"
+          name="quantity{{i}}"
+          placeholder="Số lượng"
+          required
+          #quantity="ngModel"
+        />
+        <div
+          *ngIf="quantity.invalid && (quantity.dirty || quantity.touched) && quantity.errors?.['required']"
+          class="text-danger text-xs">
+          Số lượng không được để trống
+        </div>
+      </div>
+      <div class="col-2">
+        <ng-select
+          [(ngModel)]="object.unit"
+          placeholder="Đơn vị"
+          id="unit"
+          name="unit{{i}}"
+          required
+          #unit="ngModel"
+        >
+          <ng-option *ngFor="let item of units; let i = index" [value]="item">
+            {{item}}
+          </ng-option>
+        </ng-select>
+        <div
+          *ngIf="unit.invalid && (unit.dirty || unit.touched) && unit.errors?.['required']"
+          class="text-danger text-xs">
+          Đơn vị chưa được lựa chọn
+        </div>
+      </div>
+      <div class="col-4">
+        <input
+          [(ngModel)]="object.note"
+          type="text"
+          class="form-control"
+          id="note"
+          name="note{{i}}"
+          placeholder="Ghi chú"
+          required
+          #note="ngModel"
+        />
+        <div
+          *ngIf="note.invalid && (note.dirty || note.touched) && note.errors?.['required']"
+          class="text-danger text-xs">
+          Ghi chú không được để trống
+        </div>
+      </div>
+      <a role="button" *ngIf="i>0" (click)="onRemove(i)" class="col-1 align-items-end col-1"><i class="bx bx-x bx-sm"></i></a>
+    </div>
+    <button (click)="onAdd()" class="btn btn-outline-warning mt-1">Thêm thuốc điều trị</button>
+  </form>
+</div>
+<div mat-dialog-actions align="end">
+  <button class="btn btn-secondary btn-sm m-2" (click)="close()"><span>Huỷ</span></button>
+  <button
+    [disabled]="!addForm.valid"
+    type="submit"
+    class="btn btn-primary btn-sm"
+    (click)="showValue(addForm)"
+    [mat-dialog-close]="data.orderDrugs">
+    <span>Lưu</span>
+  </button>
+</div>

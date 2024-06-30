@@ -1,0 +1,27 @@
+<h1 mat-dialog-title align="center" class="text-uppercase">
+  Tải lên file kết quả xét nghiệm/ thủ thuật
+</h1>
+<div mat-dialog-content>
+  <div>
+    <label for="file" class="form-label">Kết quả</label>
+    <input type="file"
+           class="form-control"
+           id="file"
+           value="select"
+           multiple
+           (change)="selectFiles($event)"
+           name="files"
+           required>
+  </div>
+</div>
+<div mat-dialog-actions align="end">
+  <button class="btn btn-secondary btn-sm m-2" (click)="close()"><span>Đóng</span></button>
+  <button
+    [disabled]="!data.files"
+    type="submit"
+    class="btn btn-primary btn-sm"
+    [mat-dialog-close]="data.files"
+  >
+    <span>Lưu</span>
+  </button>
+</div>

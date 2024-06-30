@@ -1,0 +1,76 @@
+<h1 mat-dialog-title class="text-uppercase">
+  {{data.isCreate ? "Thêm mới" : "Cập nhật" }} thông tin bệnh án
+</h1>
+<div mat-dialog-content class="mt-2">
+  <form #addForm="ngForm" name="updatePatientRecord">
+    <label for="reason" class="form-label">
+      Lý do nhập viện<span class="text-danger">*</span>
+    </label>
+    <div class="mb-3">
+      <input [(ngModel)]="data.medicalRecord.reason"
+             type="text"
+             class="form-control"
+             id="reason"
+             name="reason"
+             placeholder="Nhập lý do nhập viện"
+             required
+             #reason="ngModel"
+      />
+      <div
+        *ngIf="reason.invalid && (reason.dirty || reason.touched) && reason.errors?.['required']"
+        class="text-danger">
+        Lý do nhập viện không được để trống
+      </div>
+    </div>
+
+    <label for="history" class="form-label">
+      Tiền sử bệnh<span class="text-danger">*</span>
+    </label>
+    <div class="mb-3">
+      <input [(ngModel)]="data.medicalRecord.medicalHistory"
+             type="text"
+             class="form-control"
+             id="history"
+             name="medicalHistory"
+             placeholder="Nhập tiền sử bệnh"
+             required
+             #history="ngModel"
+      />
+      <div
+        *ngIf="history.invalid && (history.dirty || history.touched) && history.errors?.['required']"
+        class="text-danger">
+        Lý do nhập viện không được để trống
+      </div>
+    </div>
+
+    <label for="diagnostic" class="form-label">
+      Chẩn đoán lâm sàng<span class="text-danger">*</span>
+    </label>
+    <div class="mb-3">
+      <input [(ngModel)]="data.medicalRecord.diagnostic"
+             type="text"
+             class="form-control"
+             id="diagnostic"
+             name="diagnostic"
+             placeholder="Nhập chẩn đoán lâm sàng"
+             required
+             #diagnostic="ngModel"
+      />
+      <div
+        *ngIf="diagnostic.invalid && (diagnostic.dirty || diagnostic.touched) && diagnostic.errors?.['required']"
+        class="text-danger">
+        Lý do nhập viện không được để trống
+      </div>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions align="end">
+  <button class="btn btn-secondary btn-sm m-2" (click)="close()"><span>Huỷ</span></button>
+  <button
+    [disabled]="!addForm.valid"
+    type="submit"
+    class="btn btn-primary btn-sm"
+    [mat-dialog-close]="data.medicalRecord">
+    <span>Lưu</span>
+  </button>
+</div>

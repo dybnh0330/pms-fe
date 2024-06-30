@@ -1,0 +1,120 @@
+<h1 mat-dialog-title class="text-uppercase">
+  {{data.isCreate ? "Thêm mới" : "Cập nhật" }} tài khoản truy cập
+</h1>
+<div mat-dialog-content class="mt-2">
+  <form #addForm="ngForm"
+        name="addMedicalStaffForm"
+        class="row justify-content-md-center">
+
+    <label class="form-label" for="department">
+      Khoa bệnh<span class="text-danger">*</span>
+    </label>
+    <div class="mb-3">
+      <ng-select
+        [(ngModel)]="departmentId"
+        id="department"
+        name="department"
+        [items]="departments"
+        bindValue="id"
+        bindLabel="name"
+        #department="ngModel"
+        (ngModelChange)="onDepartmentChange($event)"
+        placeholder="Lựa chọn khoa bệnh"
+        [multiple]="false"
+        [disabled]="!data.isCreate"
+        required>
+      </ng-select>
+      <div
+        *ngIf="department.invalid && (department.dirty || department.touched) && department.errors?.['required']"
+        class="text-danger text-xs">
+        Khoa bệnh chưa được lựa chọn
+      </div>
+    </div>
+
+    <label class="" for="staff">
+      Người sử dụng<span class="text-danger">*</span>
+    </label>
+    <div class="mb-3">
+      <ng-select
+        [(ngModel)]="this.data.account.medicalStaffId"
+        id="staff"
+        name="medicalStaffId"
+        bindValue="id"
+        bindLabel="name"
+        [items]="medicalStaffs"
+        #staff="ngModel"
+        [disabled]="!data.isCreate"
+        placeholder="Lựa chọn người sử dụng"
+        required>
+      </ng-select>
+      <div
+        *ngIf="staff.invalid && (staff.dirty || staff.touched) && staff.errors?.['required']"
+        class="text-danger text-xs">
+        Người sử dụng chưa được lựa chọn
+      </div>
+    </div>
+
+    <label for="username" class="form-label">
+      Tên tài khoản<span class="text-danger">*</span>
+    </label>
+    <div class="mb-3">
+      <input [(ngModel)]="data.account.username"
+             type="text"
+             class="form-control"
+             id="username"
+             name="username"
+             placeholder="Nhập tên tài khoản"
+             required
+             #username="ngModel"
+      />
+      <div
+        *ngIf="username.invalid && (username.dirty || username.touched) && username.errors?.['required']"
+        class="text-danger">
+        Tên tài khoản không được để trống
+      </div>
+    </div>
+
+    <label class="form-label" for="role">
+      Vai trò<span class="text-danger">*</span>
+    </label>
+    <div class="mb-3">
+      <ng-select
+        [(ngModel)]="this.data.account.roleIds"
+        id="role"
+        name="roleIds"
+        [items]="roles"
+        bindValue="id"
+        bindLabel="name"
+        #role="ngModel"
+        placeholder="Lựa chọn vai trò"
+        [multiple]="true"
+        required>
+      </ng-select>
+      <div
+        *ngIf="role.invalid && (role.dirty || role.touched) && role.errors?.['required']"
+        class="text-danger text-xs">
+        Vai trò chưa được lựa chọn
+      </div>
+    </div>
+
+    <div *ngIf="!data.isCreate">
+      <mat-slide-toggle
+        name="status"
+        [(ngModel)]="data.account.status"
+        (change)="checked=$event">
+        <span class="fs-6">Trạng thái</span>
+      </mat-slide-toggle>
+    </div>
+
+  </form>
+</div>
+<div mat-dialog-actions align="end">
+  <button class="btn btn-secondary btn-sm m-2" (click)="close()"><span>Huỷ</span></button>
+  <button
+    [disabled]="!addForm.valid"
+    type="submit"
+    class="btn btn-primary btn-sm"
+    [mat-dialog-close]="data.account">
+    <span>Lưu</span>
+  </button>
+</div>

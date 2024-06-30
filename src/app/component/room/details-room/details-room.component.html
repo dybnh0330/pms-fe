@@ -1,0 +1,24 @@
+<mat-tab-group  mat-align-tabs="start">
+  <mat-tab label="Danh sách giường bệnh">
+    <mat-dialog-content>
+      <app-patient-bed [roomId]="data.patientRoom.id"></app-patient-bed>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button class="btn btn-secondary btn-sm m-2" (click)="close()"><span>Đóng</span></button>
+    </mat-dialog-actions>
+  </mat-tab>
+
+  <mat-tab label="Danh sách nhân viên phụ trách">
+    <mat-dialog-content>
+      <app-staff-room
+        [roomId]="data.patientRoom.id"
+        [departmentId]="data.patientRoom.departmentId"
+        [roomNumber]="data.patientRoom.roomNumber"
+      >
+      </app-staff-room>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button class="btn btn-secondary btn-sm m-2" (click)="close()"><span>Đóng</span></button>
+    </mat-dialog-actions>
+  </mat-tab>
+</mat-tab-group>

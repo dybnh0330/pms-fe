@@ -1,0 +1,82 @@
+<h3 class="mt-4 text-uppercase">Danh sách thông tin bệnh nhân vào viện</h3>
+<div class="mt-3">
+  <form (submit)="search()">
+    <div class="row justify-content-end">
+      <div class="col-10">
+        <input
+          class="form-control"
+          type="search"
+          [(ngModel)]="searchVo.searchText"
+          name="searchText"
+          placeholder="Nhập thông tin">
+      </div>
+      <div class="col-2">
+        <button
+          class="btn btn-light"
+          type="submit">
+          <i class='bx bx-search'></i>Tìm kiếm
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <div class="row mt-3" *ngIf="isAuthor()">
+    <div class="col-2">
+      <button class="btn btn-outline-success btn-md"
+              type="submit"
+              (click)="showCreate()">
+        <i class='bx bx-plus'></i>
+        <span>Tiếp nhận</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="mt-3">
+    <div align="center" *ngIf="patientsAdmission.length === 0">
+      <h4 class="text-danger">Không có bệnh nhân nhập viện</h4>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-hover" *ngIf="patientsAdmission.length > 0">
+        <thead>
+        <tr class="text-secondary text-start text-uppercase">
+          <th scope="col">#</th>
+          <th scope="col">Tên bệnh nhân</th>
+          <th scope="col">Giới tính</th>
+          <th scope="col">Ngày sinh</th>
+          <th scope="col">Địa chỉ</th>
+          <th scope="col">Lý do nhập viện</th>
+          <th scope="col">Lịch sử bệnh</th>
+          <th scope="col">Thời gian vào viện</th>
+          <th scope="col" *ngIf="isDoctorExam()">Hành động</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="text-dark text-start"
+            *ngFor="let item of patientsAdmission; let id = index">
+          <td>{{id + 1}}</td>
+          <td>{{item.patientName}}</td>
+          <td>{{item.gender === 0 ? "Nam" : "Nữ"}}</td>
+          <td>{{item.dob | date: 'dd/MM/yyyy'}}</td>
+          <td>{{item.address}}</td>
+          <td>{{item.reason}}</td>
+          <td>{{item.medicalHistory}}</td>
+          <td>{{item.admissionTime | date: 'dd/MM/yyyy'}}</td>
+          <td *ngIf="isDoctorExam()">
+            <button
+              (click)="showOrderMedicalOrder(item.id)"
+              class="btn btn-outline-warning btn-sm">
+              <span>Y lệnh</span>
+            </button>
+            <button
+              (click)="showOrderDepartment(item.id)"
+              class="btn btn-outline-info btn-sm">
+              <span>Nhập khoa</span>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

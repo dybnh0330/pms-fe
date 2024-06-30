@@ -1,0 +1,119 @@
+<h1 mat-dialog-title class="text-uppercase">
+  {{data.isCreate ? "Thêm mới" : "Cập nhật" }} buồng bệnh điều trị
+</h1>
+<div mat-dialog-content class="mt-2">
+  <form #addForm="ngForm"
+        name="addMedicalStaffForm"
+        (ngSubmit)="obSubmit()"
+        class="row justify-content-md-center">
+    <label for="roomNumber" class="form-label">
+      Tên buồng bệnh<span class="text-danger">*</span>
+    </label>
+    <div class="mb-3">
+      <input [(ngModel)]="data.room.roomNumber"
+             type="text"
+             class="form-control"
+             id="roomNumber"
+             name="roomNumber"
+             placeholder="Nhập tên buồng bệnh"
+             required
+             #roomNumber="ngModel"
+      />
+      <div
+        *ngIf="roomNumber.invalid && (roomNumber.dirty || roomNumber.touched) && roomNumber.errors?.['required']"
+        class="text-danger">
+        Tên khoa bệnh không được để trống
+      </div>
+    </div>
+
+    <label for="departmentId" class="form-label">
+      Khoa bệnh<span class="text-danger">*</span>
+    </label>
+    <div class="mb-3">
+      <ng-select
+        [(ngModel)]="data.room.departmentId"
+        id="departmentId"
+        name="departmentId"
+        [items]="departments"
+        [disabled]="true"
+        placeholder="Lựa chọn khoa bệnh"
+        #department="ngModel"
+        bindValue="id"
+        bindLabel="name"
+        required>
+      </ng-select>
+      <div
+        *ngIf="department.invalid && (department.dirty || department.touched) && department.errors?.['required']"
+        class="text-danger text-xs">
+        Khoa bệnh chưa được lựa chọn
+      </div>
+    </div>
+
+    <label for="totalBed" class="form-label">
+      Tổng số giường<span class="text-danger">*</span>
+    </label>
+    <div class="mb-3">
+      <input [(ngModel)]="data.room.totalBed"
+             (ngModelChange)="onAdd()"
+             type="number"
+             class="form-control"
+             id="totalBed"
+             name="totalBed"
+             placeholder="Nhập tổng số giường điều trị"
+             required
+             #totalBed="ngModel"
+      />
+      <div
+        *ngIf="totalBed.invalid && (totalBed.dirty || totalBed.touched) && totalBed.errors?.['required']"
+        class="text-danger">
+        Tổng số giường không được để trống
+      </div>
+    </div>
+
+    <div *ngIf="!data.isCreate">
+      <mat-slide-toggle
+        name="status"
+        [(ngModel)]="data.room.status"
+        (change)="checked=$event">
+        <span class="fs-6">Trạng thái</span>
+      </mat-slide-toggle>
+    </div>
+
+    <div *ngIf="data.isCreate && data.room.totalBed > 0">
+      <label for="totalBed" class="form-label">
+        Thông tin giường điều trị
+      </label>
+        <div class="mb-3 me-1" *ngFor="let item of this.data.room.patientBeds; let i = index">
+          <div class="row justify-content-around">
+            <label for="totalBed" class="form-label col">
+              Giường {{ i + 1 }}<span class="text-danger">*</span>
+            </label>
+          </div>
+          <input [(ngModel)]="item.bedNumber"
+                 type="text"
+                 class="form-control"
+                 id="bedNumber"
+                 name="patientBeds{{i}}"
+                 #bedNumber="ngModel"
+                 placeholder="Nhập tên giường điều trị"
+                 required/>
+          <div
+            *ngIf="bedNumber.invalid && (bedNumber.dirty || bedNumber.touched) && bedNumber.errors?.['required']"
+            class="text-danger">
+            Tên giường bệnh không được để trống
+          </div>
+        </div>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions align="end">
+  <button class="btn btn-secondary btn-sm m-2" (click)="close()"><span>Huỷ</span></button>
+  <button
+    [disabled]="!addForm.valid"
+    type="submit"
+    class="btn btn-primary btn-sm"
+    (click)="showValue(addForm)"
+    [mat-dialog-close]="data.room">
+    <span>Lưu</span>
+  </button>
+</div>

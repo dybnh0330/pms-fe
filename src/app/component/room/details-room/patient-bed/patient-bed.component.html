@@ -1,0 +1,57 @@
+<div align="start" *ngIf="isAuthor()">
+  <button
+    (click)="showCreate()"
+    class="btn btn-outline-success btn-sm me-1">
+    <i class="bx bx-plus"></i><span>Thêm</span>
+  </button>
+
+  <button
+    (click)="showDeleteAll()"
+    class="btn btn-outline-danger btn-sm me-1">
+    <i class='bx bx-trash'></i><span>Xoá tất cả</span>
+  </button>
+</div>
+<div class="table-responsive">
+  <table
+    class="table table-hover mt-4">
+    <thead>
+    <tr class="text-secondary text-start text-uppercase">
+      <th scope="col">#</th>
+      <th scope="col">Mã giường bệnh</th>
+      <th scope="col">Tên giường bệnh</th>
+      <th scope="col">Trạng thái</th>
+      <th
+        *ngIf="isAuthor()"
+        scope="col"
+      >
+        Hành động</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="text-dark text-start" *ngFor="let item of patientBeds; let id = index">
+      <td>{{id + 1}}</td>
+      <td>{{item.bedCode}}</td>
+      <td>{{item.bedNumber}}</td>
+      <td>
+        <div
+          class="d-inline-block bg-success bg-opacity-25 text-success p-2 rounded"
+          [ngClass]="item.status === true ? 'text-success bg-success' : 'text-danger bg-danger'">
+          {{ item.status === true ? "Trống" : "Đã có bệnh nhân" }}
+        </div>
+      </td>
+      <td *ngIf="isAuthor()">
+        <button
+          (click)="showUpdate(item.id)"
+          class="btn btn-outline-primary btn-sm me-1">
+          <span>Sửa</span>
+        </button>
+        <button
+          (click)="showDelete(item)"
+          class="btn btn-outline-danger btn-sm">
+          <span>Xoá</span>
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

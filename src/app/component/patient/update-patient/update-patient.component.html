@@ -1,0 +1,167 @@
+<h1 mat-dialog-title class="text-uppercase">
+  {{data.isCreate ? "Thêm mới" : "Cập nhật" }} Thông tin bệnh nhân
+</h1>
+<div mat-dialog-content class="mt-2">
+  <form #addForm="ngForm" name="updatePatient">
+    <label for="name" class="form-label">
+      Tên bệnh nhân<span class="text-danger">*</span>
+    </label>
+    <div class="mb-3">
+      <input [(ngModel)]="data.patient.patientName"
+             type="text"
+             class="form-control"
+             id="name"
+             name="patientName"
+             placeholder="Nhập tên bệnh nhân"
+             required
+             #patientName="ngModel"
+      />
+      <div
+        *ngIf="patientName.invalid && (patientName.dirty || patientName.touched) && patientName.errors?.['required']"
+        class="text-danger">
+        Tên bệnh nhân không được để trống
+      </div>
+    </div>
+
+    <label for="dob" class="form-label">
+      Ngày sinh<span class="text-danger">*</span>
+    </label>
+    <div class="mb-3">
+      <input [(ngModel)]="data.patient.dob"
+             type="date"
+             class="form-control"
+             id="dob"
+             name="dob"
+             placeholder="Chọn ngày sinh bệnh nhân"
+             required
+             #yearOfBirth="ngModel"
+      />
+      <div
+        *ngIf="yearOfBirth.invalid && (yearOfBirth.dirty || yearOfBirth.touched) && yearOfBirth.errors?.['required']"
+        class="text-danger">
+        Ngày sinh không được để trống
+      </div>
+    </div>
+
+    <label class="form-label" for="gender">
+      Giới tính<span class="text-danger">*</span>
+    </label>
+    <div class="mb-3">
+      <ng-select
+        [(ngModel)]="data.patient.gender"
+        id="gender"
+        name="gender"
+        #gender="ngModel"
+        placeholder="Lựa chọn giới tính"
+        required>
+        <ng-option *ngFor="let item of genders" [value]="item.id">
+          {{ item.name }}
+        </ng-option>
+      </ng-select>
+      <div
+        *ngIf="gender.invalid && (gender.dirty || gender.touched) && gender.errors?.['required']"
+        class="text-danger text-xs">
+        Giới tính không được để trống
+      </div>
+    </div>
+
+    <label for="address" class="form-label">
+      Địa chỉ<span class="text-danger">*</span>
+    </label>
+    <div class="mb-3">
+      <input [(ngModel)]="data.patient.address"
+             type="text"
+             class="form-control"
+             id="address"
+             name="address"
+             placeholder="Nhập địa chỉ của bệnh nhân"
+             required
+             #address="ngModel"
+      />
+      <div
+        *ngIf="address.invalid && (address.dirty || address.touched) && address.errors?.['required']"
+        class="text-danger">
+        Địa chỉ bệnh nhân không được để trống
+      </div>
+    </div>
+
+    <label for="patientPhone" class="form-label">
+      Số điện thoại bệnh nhân
+    </label>
+    <div class="mb-3">
+      <input
+        [(ngModel)]="data.patient.patientPhone"
+        type="text"
+        class="form-control"
+        id="patientPhone"
+        name="patientPhone"
+        placeholder="Nhập số điện thoại bệnh nhân"
+        [maxLength]="10"
+      />
+    </div>
+
+    <label for="guardianPhone" class="form-label">
+      Số điện thoại người thân
+    </label>
+    <div class="mb-3">
+      <input
+        [(ngModel)]="data.patient.guardianPhone"
+        type="text"
+        class="form-control"
+        id="guardianPhone"
+        name="guardianPhone"
+        placeholder="Nhập số điện thoại người thân"
+        [maxLength]="10"
+        #phone="ngModel"
+      />
+    </div>
+    <label for="bhytCode" class="form-label">
+      Mã BHYT
+    </label>
+    <div class="mb-3">
+      <input
+        [(ngModel)]="data.patient.bhytCode"
+        type="text"
+        class="form-control "
+        id="bhytCode"
+        name="bhytCode"
+        placeholder="Nhập số CCCD/CMND"
+        required
+        #bhytCode="ngModel"
+        [maxLength]="14"
+      />
+    </div>
+
+    <label for="cccd" class="form-label">
+      Số CCCD/CMND<span class="text-danger">*</span>
+    </label>
+    <div class="mb-3">
+      <input
+        [(ngModel)]="data.patient.cccdNumber"
+        type="text"
+        class="form-control "
+        id="cccd"
+        name="cccd"
+        placeholder="Nhập số CCCD/CMND"
+        required
+        #cccd="ngModel"
+        [maxLength]="14"
+      />
+      <div
+        *ngIf="cccd.invalid && (cccd.dirty || cccd.touched) && cccd.errors?.['required']"
+        class="text-danger text-xs">
+        Số CCCD/CMND không được để trống
+      </div>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions align="end">
+  <button class="btn btn-secondary btn-sm m-2" (click)="close()"><span>Huỷ</span></button>
+  <button
+    [disabled]="!addForm.valid"
+    type="submit"
+    class="btn btn-primary btn-sm"
+    [mat-dialog-close]="data.patient">
+    <span>Lưu</span>
+  </button>
+</div>

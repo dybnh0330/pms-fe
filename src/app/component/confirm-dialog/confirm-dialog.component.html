@@ -1,0 +1,17 @@
+<h1 mat-dialog-title align="center" class="mb-3 fs-4 text-uppercase">
+  {{title}}
+</h1>
+
+<div mat-dialog-content>
+  <p>{{message}}</p>
+</div>
+
+<div mat-dialog-actions align="center" class="row justify-content-around">
+  <div class="col">
+    <button class="btn btn-danger btn-md px-3" (click)="onConfirm()">Đồng ý</button>
+  </div>
+
+  <div class="col">
+    <button class="btn btn-light btn-md px-4" (click)="onDismiss()">Không</button>
+  </div>
+</div>

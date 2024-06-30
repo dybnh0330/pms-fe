@@ -1,0 +1,64 @@
+<h1 mat-dialog-title class="text-uppercase">
+  {{data.isCreate ? "Thêm mới" : "Cập nhật" }} khoa bệnh
+</h1>
+<div mat-dialog-content class="mt-2">
+  <form #addForm="ngForm"
+        name="departmentForm"
+        class="row justify-content-md-center">
+    <label for="name" class="form-label">
+      Tên khoa bệnh<span class="text-danger">*</span>
+    </label>
+    <div class="mb-3">
+      <input [(ngModel)]="data.department.name"
+             type="text"
+             class="form-control"
+             id="name"
+             name="name"
+             placeholder="Nhập tên khoa bệnh"
+             required
+             #name="ngModel"
+      />
+      <div
+        *ngIf="name.invalid && (name.dirty || name.touched) && name.errors?.['required']"
+        class="text-danger">
+        Tên khoa bệnh không được để trống
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label" for="description">
+        Thông tin mô tả<span class="text-danger">*</span>
+      </label>
+      <textarea
+        class="form-control"
+        [(ngModel)]="data.department.description"
+        name="description"
+        placeholder="Thông tin mô tả khoa bệnh"
+        required
+        id="description"
+        #description="ngModel"
+        rows="5"></textarea>
+
+      <div
+        *ngIf="description.invalid
+        && (description.dirty || description.touched)
+        && description.errors?.['required']"
+        class="text-danger">
+        Thông tin mô tả không được để trống
+      </div>
+    </div>
+
+
+  </form>
+</div>
+<div mat-dialog-actions align="end">
+  <button class="btn btn-secondary btn-sm m-2" (click)="close()"><span>Huỷ</span></button>
+  <button
+    [disabled]="!addForm.valid"
+    type="submit"
+    class="btn btn-primary btn-sm"
+    (click)="showValue(addForm)"
+    [mat-dialog-close]="data.department">
+    <span>Lưu</span>
+  </button>
+</div>

@@ -1,0 +1,274 @@
+<h1 mat-dialog-title class="text-uppercase">
+  Thông tin chi tiết bệnh nhân {{data.patientName}}
+</h1>
+<div mat-dialog-content class="">
+  <div class="row g-3">
+    <div class="col-2 col-form-label">
+      <label>Mã bệnh nhân</label>
+    </div>
+    <div class="col-10">
+      <input
+        type="text"
+        id="patientCode"
+        class="form-control no-border"
+        value="{{data.patientCode}}"
+        readonly
+      >
+    </div>
+  </div>
+  <div class="row g-2">
+    <div class="col-2 col-form-label">
+      <label>Tên bệnh nhân</label>
+    </div>
+    <div class="col-10">
+      <input
+        type="text"
+        id="patientName"
+        class="form-control no-border"
+        value="{{data.patientName}}"
+        readonly
+      >
+    </div>
+  </div>
+  <div class="row g-2">
+    <div class="col-2 col-form-label">
+      <label>Giới tính</label>
+    </div>
+    <div class="col-10">
+      <input
+        type="text"
+        id="gender"
+        class="form-control no-border"
+        value="{{data.gender === 0 ? 'Nam' : 'Nữ'}}"
+        readonly
+      >
+    </div>
+  </div>
+  <div class="row g-2">
+    <div class="col-2 col-form-label">
+      <label>Ngày sinh</label>
+    </div>
+    <div class="col-10">
+      <input
+        type="text"
+        id="yearOfBirth"
+        class="form-control no-border"
+        value="{{data.dob | date: 'dd/MM/yyyy'}}"
+        readonly
+      >
+    </div>
+  </div>
+  <div class="row g-2">
+    <div class="col-2 col-form-label">
+      <label>Mã BHYT</label>
+    </div>
+    <div class="col-10">
+      <input
+        type="text"
+        id="bhytCode"
+        class="form-control no-border"
+        value="{{data.bhytCode === '' ? 'Không có BHYT' : data.bhytCode}}"
+        readonly
+      >
+    </div>
+  </div>
+  <div class="row g-2">
+    <div class="col-2 col-form-label">
+      <label>Số CCCD/CMND</label>
+    </div>
+    <div class="col-10">
+      <input
+        type="text"
+        id="cccdNumber"
+        class="form-control no-border"
+        value="{{data.cccdNumber}}"
+        readonly
+      >
+    </div>
+  </div>
+  <div class="row g-2">
+    <div class="col-2 col-form-label">
+      <label>SĐT người thân</label>
+    </div>
+    <div class="col-10">
+      <input
+        type="text"
+        id="guardianPhone"
+        class="form-control no-border"
+        value="{{data.guardianPhone === '' ? 'Không có' : data.guardianPhone}}"
+        readonly
+      >
+    </div>
+  </div>
+  <div class="row g-2">
+    <div class="col-2 col-form-label">
+      <label>SĐT bệnh nhân</label>
+    </div>
+    <div class="col-10">
+      <input
+        type="text"
+        id="patientPhone"
+        class="form-control no-border"
+        value="{{data.patientPhone === '' ? 'Không có' : data.patientPhone}}"
+        readonly
+      >
+    </div>
+  </div>
+  <div class="row g-2">
+    <div class="col-2 col-form-label">
+      <label>Trạng thái</label>
+    </div>
+    <div class="col-10">
+      <input
+        type="text"
+        id="status"
+        class="form-control no-border"
+        value="{{patientStatus}}"
+        readonly
+      >
+    </div>
+  </div>
+  <div class="row g-2">
+    <div class="col-2 col-form-label">
+      <label>Ngày nhập viện</label>
+    </div>
+    <div class="col-10">
+      <input
+        type="text"
+        id="admissionTime"
+        class="form-control no-border"
+        value="{{data.createTime | date: 'dd/MM/yyyy'}}"
+        readonly
+      >
+    </div>
+  </div>
+  <div class="row g-2">
+    <div class="col-2 col-form-label">
+      <label>Khoa bệnh</label>
+    </div>
+    <div class="col-10">
+      <input
+        type="text"
+        id="department"
+        class="form-control no-border"
+        value="{{data.departmentName}}"
+        readonly
+      >
+    </div>
+  </div>
+  <div class="row g-2">
+    <div class="col-2 col-form-label">
+      <label>Bác sĩ điều trị</label>
+    </div>
+    <div class="col-10">
+      <input
+        type="text"
+        id="medicalStaff"
+        class="form-control no-border"
+        value="{{data.medicalStaffName}}"
+        readonly
+      >
+    </div>
+  </div>
+  <div class="row g-2">
+    <div class="col-2 col-form-label">
+      <label>Buồng bệnh</label>
+    </div>
+    <div class="col-10">
+      <input
+        type="text"
+        id="patientRoom"
+        class="form-control no-border"
+        value="{{data.roomNumber}}"
+        readonly
+      >
+    </div>
+  </div>
+  <div class="row g-2">
+    <div class="col-2 col-form-label">
+      <label>Giường bệnh</label>
+    </div>
+    <div class="col-10">
+      <input
+        type="text"
+        id="patientBed"
+        class="form-control no-border"
+        value="{{data.bedNumber}}"
+        readonly
+      >
+    </div>
+  </div>
+  <div class="row g-2" *ngIf="data.updateTime != ''">
+    <div class="col-2 col-form-label">
+      <label>Thời gian vào viện</label>
+    </div>
+    <div class="col-10">
+      <input
+        type="text"
+        id="createTime"
+        class="form-control no-border"
+        value="{{data.createTime | date: 'dd/MM/yyyy HH:mm:ss'}}"
+        readonly
+      >
+    </div>
+  </div>
+  <div class="row g-2" *ngIf="data.updateBy != ''">
+    <div class="col-2 col-form-label">
+      <label>Người tiếp nhận</label>
+    </div>
+    <div class="col-10">
+      <input
+        type="text"
+        id="createBy"
+        class="form-control no-border"
+        value="{{data.createBy}}"
+        readonly
+      >
+    </div>
+  </div>
+  <div class="row g-2" *ngIf="data.updateTime != ''">
+    <div class="col-2 col-form-label">
+      <label>Thời gian cập nhật</label>
+    </div>
+    <div class="col-10">
+      <input
+        type="text"
+        id="updateTime"
+        class="form-control no-border"
+        value="{{data.updateTime | date: 'dd/MM/yyyy HH:mm:ss'}}"
+        readonly
+      >
+    </div>
+  </div>
+  <div class="row g-2" *ngIf="data.updateBy != ''">
+    <div class="col-2 col-form-label">
+      <label>Người cập nhật</label>
+    </div>
+    <div class="col-10">
+      <input
+        type="text"
+        id="updateBy"
+        class="form-control no-border"
+        value="{{data.updateBy}}"
+        readonly
+      >
+    </div>
+  </div>
+  <div class="row g-2" *ngIf="data.status === 2">
+    <div class="col-2 col-form-label">
+      <label>Ngày account/unlockxuất viện</label>
+    </div>
+    <div class="col-10">
+      <input
+        type="text"
+        id="dischargeTime"
+        class="form-control no-border"
+        value="{{data.dischargeTime | date: 'dd/mm/yyyy'}}"
+        readonly
+      >
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions align="end">
+  <button class="btn btn-secondary btn-sm m-2" (click)="close()"><span>Đóng</span></button>
+</div>

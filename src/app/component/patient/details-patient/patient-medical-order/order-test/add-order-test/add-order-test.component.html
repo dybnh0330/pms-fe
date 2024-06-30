@@ -1,0 +1,60 @@
+<h1 mat-dialog-title class="text-uppercase">
+  {{data.isCreate ? "Thêm mới" : "Cập nhật" }} y lệnh xét nghiệm CLS
+</h1>
+<div mat-dialog-content class="mt-2">
+  <form #addForm="ngForm"
+        name="addOrderDrug"
+  >
+    <div class="row mt-1" *ngFor="let object of dataArray; let i = index">
+      <div class="col-4">
+        <ng-select
+          [(ngModel)]="object.categoryId"
+          id="dugName"
+          name="categoryId{{i}}"
+          placeholder="Chọn xét nghiệm CLS"
+          [items]="tests"
+          bindLabel="name"
+          bindValue="id"
+          required
+          #name="ngModel"
+        >
+        </ng-select>
+        <div
+          *ngIf="name.invalid && (name.dirty || name.touched) && name.errors?.['required']"
+          class="text-danger text-xs">
+          Xét nghiệm chưa được lựa chọn
+        </div>
+      </div>
+      <div class="col-7">
+        <input
+          [(ngModel)]="object.note"
+          type="text"
+          class="form-control"
+          id="note"
+          name="note{{i}}"
+          placeholder="Ghi chú"
+          required
+          #note="ngModel"
+        />
+        <div
+          *ngIf="note.invalid && (note.dirty || note.touched) && note.errors?.['required']"
+          class="text-danger text-xs">
+          Ghi chú không được để trống
+        </div>
+      </div>
+      <a role="button" *ngIf="i>0" (click)="onRemove(i)" class="col-1 align-items-end col-1"><i class="bx bx-x bx-sm"></i></a>
+    </div>
+    <button (click)="onAdd()" class="btn btn-outline-warning mt-1">Thêm xét nghiệm CLS</button>
+  </form>
+</div>
+<div mat-dialog-actions align="end">
+  <button class="btn btn-secondary btn-sm m-2" (click)="close()"><span>Huỷ</span></button>
+  <button
+    [disabled]="!addForm.valid"
+    type="submit"
+    class="btn btn-primary btn-sm"
+    (click)="showValue(addForm)"
+    [mat-dialog-close]="data.orderTests">
+    <span>Lưu</span>
+  </button>
+</div>

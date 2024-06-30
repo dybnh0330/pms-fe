@@ -1,0 +1,106 @@
+<h1 mat-dialog-title class="text-uppercase">
+  Chỉ định bệnh nhân nhập khoa
+</h1>
+<div mat-dialog-content class="mt-1">
+  <form #addForm="ngForm" name="assignPatientForm">
+    <label for="departmentId" class="form-label">
+      Khoa bệnh<span class="text-danger">*</span>
+    </label>
+    <div class="mb-3">
+      <ng-select
+        [(ngModel)]="data.assignPatient.departmentId"
+        id="departmentId"
+        name="departmentId"
+        [items]="departments"
+        [disabled]="true"
+        placeholder="Lựa chọn khoa bệnh"
+        #department="ngModel"
+        bindValue="id"
+        bindLabel="name"
+        required>
+      </ng-select>
+      <div
+        *ngIf="department.invalid && (department.dirty || department.touched) && department.errors?.['required']"
+        class="text-danger text-xs">
+        Khoa bệnh chưa được lựa chọn
+      </div>
+    </div>
+
+    <label class="form-label" for="doctor">
+      Bác sĩ điều trị<span class="text-danger">*</span>
+    </label>
+    <div class="mb-3">
+      <ng-select
+        [(ngModel)]="data.assignPatient.medicalStaffId"
+        id="doctor"
+        name="doctorId"
+        [items]="doctors"
+        bindValue="id"
+        bindLabel="name"
+        #doctor="ngModel"
+        placeholder="Lựa chọn bác sĩ điều trị"
+        required>
+      </ng-select>
+      <div
+        *ngIf="doctor.invalid && (doctor.dirty || doctor.touched) && doctor.errors?.['required']"
+        class="text-danger text-xs">
+        Bác sĩ điều trị chưa được lựa chọn
+      </div>
+    </div>
+
+    <label class="form-label" for="room">
+      Buồng bệnh<span class="text-danger">*</span>
+    </label>
+    <div class="mb-3">
+      <ng-select
+        [(ngModel)]="data.assignPatient.roomId"
+        id="room"
+        name="roomId"
+        [items]="rooms"
+        bindValue="id"
+        bindLabel="roomNumber"
+        #room="ngModel"
+        (ngModelChange)="onRoomChange($event)"
+        placeholder="Lựa chọn buồng bệnh điều trị"
+        required>
+      </ng-select>
+      <div
+        *ngIf="room.invalid && (room.dirty || room.touched) && room.errors?.['required']"
+        class="text-danger text-xs">
+        Buồng bệnh chưa được lựa chọn
+      </div>
+    </div>
+
+    <label class="form-label" for="patientBed">
+      Giường bệnh<span class="text-danger">*</span>
+    </label>
+    <div class="mb-3">
+      <ng-select
+        [(ngModel)]="data.assignPatient.patientBedId"
+        id="patientBed"
+        name="patientBedId"
+        [items]="patientBeds"
+        bindValue="id"
+        bindLabel="bedNumber"
+        #patientBed="ngModel"
+        placeholder="Lựa chọn buồng bệnh điều trị"
+        required>
+      </ng-select>
+      <div
+        *ngIf="patientBed.invalid && (patientBed.dirty || patientBed.touched) && patientBed.errors?.['required']"
+        class="text-danger text-xs">
+        Giường bệnh không được để trống
+      </div>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions align="end">
+  <button class="btn btn-secondary btn-sm m-2" (click)="close()"><span>Huỷ</span></button>
+  <button
+    [disabled]="!addForm.valid"
+    type="submit"
+    class="btn btn-primary btn-sm"
+    [mat-dialog-close]="data.assignPatient">
+    <span>Lưu</span>
+  </button>
+</div>

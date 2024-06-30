@@ -1,0 +1,57 @@
+<h1 mat-dialog-title class="text-uppercase">
+  {{data.isCreate ? "Thêm mới" : "Cập nhật" }} thông tin giường bệnh
+</h1>
+<div mat-dialog-content class="mt-2">
+  <form #addForm="ngForm"
+        class="row justify-content-md-center">
+    <label for="code" class="form-label">
+      Buồng bệnh
+    </label>
+    <div class="mb-3">
+      <input [(ngModel)]="data.staffRoom.roomNumber"
+             type="text"
+             class="form-control"
+             id="code"
+             name="roomId"
+             readonly
+      />
+    </div>
+    <label for="staff">
+      Danh sách nhân viên<span class="text-danger">*</span>
+    </label>
+    <div class="mb-3">
+
+      <ng-select
+        id="staff"
+        name="staffs"
+        bindValue="id"
+        bindLabel="name"
+        placeholder="Lựa chọn nhân viên"
+        [(ngModel)]="data.staffRoom.medicalStaffIds"
+        #staff="ngModel"
+        [items]="staffRooms"
+        [multiple]="true"
+        required
+      >
+      </ng-select>
+      <div
+        *ngIf="staff.invalid
+        && (staff.dirty || staff.touched)
+        && staff.errors?.['required']"
+        class="text-danger">
+        Danh sách nhân viên không được để trống
+      </div>
+    </div>
+  </form>
+</div>
+<div mat-dialog-actions align="end">
+  <button class="btn btn-secondary btn-sm m-2" (click)="close()"><span>Huỷ</span></button>
+  <button
+    [disabled]="!addForm.valid"
+    type="submit"
+    class="btn btn-primary btn-sm"
+    (click)="showValue(addForm)"
+    [mat-dialog-close]="data.staffRoom">
+    <span>Lưu</span>
+  </button>
+</div>

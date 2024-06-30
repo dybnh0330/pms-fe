@@ -1,0 +1,193 @@
+<mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
+
+  <mat-tab label="Loại danh mục">
+    <h3 class="mt-4 text-uppercase">Danh sách thông tin loại danh mục</h3>
+    <div class="mt-3 ms-1">
+      <form (submit)="searchCategoryType()">
+        <div class="row justify-content-end">
+          <div class="col-10">
+            <input
+              class="form-control"
+              type="search"
+              [(ngModel)]="searchSortVO.searchText"
+              name="searchText"
+              placeholder="Nhập thông tin">
+          </div>
+          <div class="col-2">
+            <button
+              class="btn btn-light"
+              type="submit">
+              <i class='bx bx-search'></i>Tìm kiếm
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <div class="row mt-3" *ngIf="isAuthor()">
+        <div class="col-2">
+          <button class="btn btn-outline-success btn-md"
+                  type="submit"
+                  (click)="showCreateCategoryType()">
+            <i class='bx bx-plus'></i>
+            <span>Thêm</span>
+          </button>
+        </div>
+
+      </div>
+
+      <div class="table-responsive">
+        <table
+          sorter
+          (sortChange)="onSortTypeChange($event)"
+          class="table table-hover mt-4">
+          <thead>
+          <tr class="text-secondary text-start text-uppercase ">
+            <th class="col-1" scope="col">#</th>
+            <th class="col-2" sortHeader ref="name" scope="col">Loại danh mục</th>
+            <th class="col-8 text-wrap" sortHeader ref="description" scope="col">Thông tin mô tả</th>
+            <th class="col-1" scope="col"
+                *ngIf="isAuthor()"
+            >Hành động</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="text-dark text-start" *ngFor="let item of categoryTypes; let id = index">
+            <td>{{id + 1}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.description}}</td>
+            <td *ngIf="isAuthor()">
+              <button
+                (click)="showUpdateCategoryType(item.id)"
+                class="btn btn-outline-primary btn-sm me-1">
+                <span>Sửa</span>
+              </button>
+              <button
+                (click)="showDeleteCategoryType(item)"
+                class="btn btn-outline-danger btn-sm">
+                <span>Xoá</span>
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="Danh mục">
+    <h3 class="mt-4 text-uppercase">Danh sách thông tin danh mục</h3>
+    <div class="mt-3 ms-1">
+      <form (submit)="searchCategory()">
+        <div class="row justify-content-end">
+          <div class="col-10">
+            <input
+              class="form-control"
+              [(ngModel)]="searchVo.searchText"
+              name="searchText"
+              type="search"
+              placeholder="Nhập thông tin">
+          </div>
+          <div class="col-2">
+            <button class="btn btn-light" type="submit"><i class='bx bx-search'></i>Tìm kiếm</button>
+          </div>
+        </div>
+      </form>
+
+      <div
+        *ngIf="isAuthor()"
+        class="row mt-3">
+        <div class="col-2">
+          <button class="btn btn-outline-success btn-md"
+                  type="submit"
+                  (click)="showCreateCategory()">
+            <i class='bx bx-plus'></i>
+            <span>Thêm</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="col-3 my-3">
+        <ng-select
+          id="selectCategoryType"
+          [(ngModel)]="typeId"
+          [items]="categoryTypes"
+          bindLabel="name"
+          bindValue="id"
+          (ngModelChange)="onTypeChange($event)"
+          placeholder="Lọc theo loại danh mục">
+        </ng-select>
+      </div>
+
+      <div class="table-responsive">
+        <table
+          sorter
+          (sortChange)="onSortCategoryChange($event)"
+          class="table table-hover">
+          <thead>
+          <tr class="text-secondary text-start text-uppercase">
+            <th scope="col">#</th>
+            <th sortHeader ref="name" scope="col">Tên danh mục</th>
+            <th sortHeader ref="parentId" scope="col">Loại danh mục</th>
+            <th sortHeader ref="description" scope="col" style="width: 600px">Thông tin mô tả</th>
+            <th
+              *ngIf="isAuthor()"
+              scope="col">Hành động</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr class="text-dark text-start" *ngFor="let item of categories; let id = index">
+            <td>{{id + 1 + itemsPerPage * (page - 1)}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.parentName}}</td>
+            <td>{{item.description}}</td>
+            <td
+              *ngIf="isAuthor()"
+            >
+              <button
+                (click)="showUpdateCategory(item.id)"
+                class="btn btn-outline-primary btn-sm me-1">
+                <span>Sửa</span>
+              </button>
+              <button
+                (click)="showDeleteCategory(item)"
+                class="btn btn-outline-danger btn-sm">
+                <span>Xoá</span>
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row justify-content-around">
+        <div class="col-3" *ngIf="totalElements > 0">
+          Hiển thị từ {{ 1 + itemsPerPage * (page - 1) }} -
+          {{ math.min(totalElements, itemsPerPage * page) }} /
+          {{ totalElements }} phần tử
+        </div>
+        <div class="col-3">
+          <pagination
+            (onPageChange)="onPageChange($event)"
+            [page]="page"
+            [totalItems]="totalElements"
+            [itemsPerPage]="itemsPerPage"
+          ></pagination>
+        </div>
+        <div class="col-3">
+      <span style="font-size: 14px; line-height: 16px">
+        Số lượng hiển thị/Trang: </span>&nbsp;
+          <div class="d-inline-block">
+            <select
+              style="font-size: 14px; line-height: 16px"
+              class="form-select"
+              aria-label="Số phần tử/Trang"
+              [ngModel]="itemsPerPage"
+              (ngModelChange)="onItemPerPageChange($event)">
+              <option *ngFor="let item of lsItemsPerPage" [value]="item">
+                {{ item }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-tab>
+</mat-tab-group>
